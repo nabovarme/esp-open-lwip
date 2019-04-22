@@ -312,6 +312,20 @@ dns_tmr(void)
   }
 }
 
+void ICACHE_FLASH_ATTR
+dns_flush_all(void)
+{
+    u8_t i;
+    struct dns_table_entry *pEntry;
+
+    LWIP_DEBUGF(DNS_DEBUG, ("dns_flush_all: flushing all entries\n"));
+    for (i = 0; i < DNS_TABLE_SIZE; ++i) {
+      pEntry = &dns_table[i];
+      pEntry->state   = DNS_STATE_UNUSED;
+      pEntry->found   = NULL;
+    }
+}
+
 #if DNS_LOCAL_HOSTLIST
 static void ICACHE_FLASH_ATTR
 dns_init_local()
@@ -641,6 +655,10 @@ dns_check_entry(u8_t i)
 {
   err_t err;
   struct dns_table_entry *pEntry = &dns_table[i];
+
+  LWIP_DEBUGF(DNS_DEBUG | LWIP_DBG_LEVEL_WARNING,
+              ("dns_check_entry:\n\tstate: %d, numdns: %d, tmr: %d, retries: %d, seqno: %d, err: %d, ttl: %d, name: %s\n",
+              pEntry->state, pEntry->numdns, pEntry->tmr, pEntry->retries, pEntry->seqno, pEntry->err, pEntry->ttl, pEntry->name));
 
   LWIP_ASSERT("array index out of bounds", i < DNS_TABLE_SIZE);
 
