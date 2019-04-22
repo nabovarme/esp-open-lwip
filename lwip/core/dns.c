@@ -657,8 +657,8 @@ dns_check_entry(u8_t i)
   struct dns_table_entry *pEntry = &dns_table[i];
 
   LWIP_DEBUGF(DNS_DEBUG | LWIP_DBG_LEVEL_WARNING,
-              ("dns_check_entry:\n\tstate: %d, numdns: %d, tmr: %d, retries: %d, seqno: %d, err: %d, ttl: %d, name: %s\n",
-              pEntry->state, pEntry->numdns, pEntry->tmr, pEntry->retries, pEntry->seqno, pEntry->err, pEntry->ttl, pEntry->name));
+              ("\tentry %d: state: %d, numdns: %d, tmr: %d, retries: %d, seqno: %d, err: %d, ttl: %d, name: %s\n",
+              i, pEntry->state, pEntry->numdns, pEntry->tmr, pEntry->retries, pEntry->seqno, pEntry->err, pEntry->ttl, pEntry->name));
 
   LWIP_ASSERT("array index out of bounds", i < DNS_TABLE_SIZE);
 
