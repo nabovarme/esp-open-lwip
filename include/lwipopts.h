@@ -846,7 +846,7 @@
 
 /** DNS maximum number of retries when asking for a name, before "timeout". */
 #ifndef DNS_MAX_RETRIES
-#define DNS_MAX_RETRIES                 30
+#define DNS_MAX_RETRIES                 4
 #endif
 /** DNS_LOCAL_HOSTLIST: Implements a local host-to-address list. If enabled,
  *  you have to define
