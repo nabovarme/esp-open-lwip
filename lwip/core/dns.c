@@ -321,6 +321,9 @@ dns_flush_all(void)
     LWIP_DEBUGF(DNS_DEBUG, ("dns_flush_all: flushing all entries\n"));
     for (i = 0; i < DNS_TABLE_SIZE; ++i) {
       pEntry = &dns_table[i];
+      if (pEntry->found)
+        (*pEntry->found)(pEntry->name, NULL, pEntry->arg);
+      /* flush this entry */
       pEntry->state   = DNS_STATE_UNUSED;
       pEntry->found   = NULL;
     }
