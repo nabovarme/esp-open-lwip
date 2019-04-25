@@ -312,23 +312,6 @@ dns_tmr(void)
   }
 }
 
-void ICACHE_FLASH_ATTR
-dns_flush_all(void)
-{
-    u8_t i;
-    struct dns_table_entry *pEntry;
-
-    LWIP_DEBUGF(DNS_DEBUG, ("dns_flush_all: flushing all entries\n"));
-    for (i = 0; i < DNS_TABLE_SIZE; ++i) {
-      pEntry = &dns_table[i];
-      if (pEntry->found)
-        (*pEntry->found)(pEntry->name, NULL, pEntry->arg);
-      /* flush this entry */
-      pEntry->state   = DNS_STATE_UNUSED;
-      pEntry->found   = NULL;
-    }
-}
-
 #if DNS_LOCAL_HOSTLIST
 static void ICACHE_FLASH_ATTR
 dns_init_local()
@@ -996,7 +979,7 @@ dns_gethostbyname(const char *hostname, ip_addr_t *addr, dns_found_callback foun
   ipaddr = ipaddr_addr(hostname);
   if (ipaddr == IPADDR_NONE) {
     /* already have this address cached? */
-//    ipaddr = dns_lookup(hostname);
+    ipaddr = dns_lookup(hostname);
   }
   if (ipaddr != IPADDR_NONE) {
     ip4_addr_set_u32(addr, ipaddr);
