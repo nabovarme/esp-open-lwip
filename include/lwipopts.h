@@ -1834,7 +1834,7 @@
    ---------- Debugging options ----------
    ---------------------------------------
 */
-#define LWIP_DEBUG			1
+//#define LWIP_DEBUG			1
 /**
  * LWIP_DBG_MIN_LEVEL: After masking, the value of the debug is
  * compared against this value. If it is smaller, then debugging
@@ -1849,7 +1849,7 @@
  * debug messages of certain types.
  */
 #ifndef LWIP_DBG_TYPES_ON
-#define LWIP_DBG_TYPES_ON               LWIP_DBG_ON
+#define LWIP_DBG_TYPES_ON               LWIP_DBG_OFF
 #endif
 
 /**
@@ -2032,7 +2032,7 @@
  * UDP_DEBUG: Enable debugging in UDP.
  */
 #ifndef UDP_DEBUG
-#define UDP_DEBUG                       LWIP_DBG_ON
+#define UDP_DEBUG                       LWIP_DBG_OFF
 #endif
 
 /**
@@ -2088,7 +2088,7 @@
  * DNS_DEBUG: Enable debugging for DNS.
  */
 #ifndef DNS_DEBUG
-#define DNS_DEBUG                       LWIP_DBG_ON
+#define DNS_DEBUG                       LWIP_DBG_OFF
 #endif
 
 /**
