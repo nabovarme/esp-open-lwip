@@ -378,7 +378,7 @@ dhcp_coarse_tmr()
   /* iterate through all network interfaces */
   while (netif != NULL) {
     /* only act on DHCP configured interfaces */
-    if (netif->dhcp != NULL) && (netif->dhcp->state != DHCP_OFF)) {
+    if ((netif->dhcp != NULL) && (netif->dhcp->state != DHCP_OFF)) {
       /* timer is active (non zero), and triggers (zeroes) now? */
       if (netif->dhcp->t2_timeout-- == 1) {
         LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("dhcp_coarse_tmr(): t2 timeout\n"));
