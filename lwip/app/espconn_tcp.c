@@ -389,32 +389,44 @@ espconn_Task(os_event_t *events)
 {
 	espconn_msg *task_msg = NULL;
 	struct espconn *pespconn = NULL;
+	espconn_msg *task_msg = NULL;
+	struct espconn *pespconn = NULL;
 
 	task_msg = (espconn_msg *) events->par;
-	switch (events->sig) {
-		case SIG_ESPCONN_WRITE: {
-			pespconn = task_msg->pespconn;
-			if (pespconn == NULL) {
-				return;
-			}
-
-			if (pespconn->proto.tcp->write_finish_fn != NULL) {
-				pespconn->proto.tcp->write_finish_fn(pespconn);
-			}
+	/*find the active connection node*/
+	for (plist = plink_active; plist != NULL; plist = plist->pnext){
+		if (task_msg == plist) {
+			active_flag = true;
+			break;
 		}
-			break;
-		case SIG_ESPCONN_ERRER:
-			/*remove the node from the client's active connection list*/
-			espconn_list_delete(&plink_active, task_msg);
-			espconn_tcp_reconnect(task_msg);
-			break;
-		case SIG_ESPCONN_CLOSE:
-			/*remove the node from the client's active connection list*/
-			espconn_list_delete(&plink_active, task_msg);
-			espconn_tcp_disconnect_successful(task_msg);
-			break;
-		default:
-			break;
+	}
+
+	if (active_flag){
+		switch (events->sig) {
+			case SIG_ESPCONN_WRITE: {
+				pespconn = task_msg->pespconn;
+				if (pespconn == NULL) {
+					return;
+				}
+    	
+				if (pespconn->proto.tcp->write_finish_fn != NULL) {
+					pespconn->proto.tcp->write_finish_fn(pespconn);
+				}
+			}
+				break;
+			case SIG_ESPCONN_ERRER:
+				/*remove the node from the client's active connection list*/
+				espconn_list_delete(&plink_active, task_msg);
+				espconn_tcp_reconnect(task_msg);
+				break;
+			case SIG_ESPCONN_CLOSE:
+				/*remove the node from the client's active connection list*/
+				espconn_list_delete(&plink_active, task_msg);
+				espconn_tcp_disconnect_successful(task_msg);
+				break;
+			default:
+				break;
+		}
 	}
 }
 
