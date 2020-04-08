@@ -401,7 +401,7 @@ espconn_Task(os_event_t *events)
 		}
 	}
 
-	if (active_flag){
+	if (active_flag) {
 		switch (events->sig) {
 			case SIG_ESPCONN_WRITE: {
 				pespconn = task_msg->pespconn;
