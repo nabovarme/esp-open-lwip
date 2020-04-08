@@ -387,8 +387,8 @@ espconn_tcp_disconnect_successful(void *arg)
 static void ICACHE_FLASH_ATTR
 espconn_Task(os_event_t *events)
 {
-	espconn_msg *task_msg = NULL;
-	struct espconn *pespconn = NULL;
+	espconn_msg *plist = NULL;
+	bool active_flag = false;
 	espconn_msg *task_msg = NULL;
 	struct espconn *pespconn = NULL;
 
