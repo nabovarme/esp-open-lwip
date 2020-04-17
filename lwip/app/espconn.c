@@ -1244,27 +1244,24 @@ espconn_delete(struct espconn *espconn)
 uint32 ICACHE_FLASH_ATTR
 espconn_port(void)
 {
-    uint32 port = 0;
-    static uint32 randnum = 0;
+    espconn_msg *plist = NULL;
+    while (1) {
+        uint16_t port = os_random();
+        if (port == 0) continue;
 
-    do {
-        port = os_random();
+        bool available = true;
+        for (plist = plink_active; plist != NULL; plist = plist->pnext) {
+            if (!plist->pespconn) continue;
 
-        if (port < 0) {
-            port = os_random() - port;
+            if (((plist->pespconn->type == ESPCONN_TCP) && (port == plist->pespconn->proto.tcp->local_port)) ||
+                ((plist->pespconn->type == ESPCONN_UDP) && (port == plist->pespconn->proto.udp->local_port))) {
+                available = false;
+                break;
+            }
         }
 
-        port %= 0xc350;
-
-        if (port < 0x400) {
-            port += 0x400;
-        }
-
-    } while (port == randnum);
-
-    randnum = port;
-
-    return port;
+        if (available) return port; 
+    }
 }
 
 /******************************************************************************
