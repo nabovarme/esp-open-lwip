@@ -5,6 +5,7 @@
 #include "gpio.h"
 #include "mem.h"
 
+#if 0	// DEBUG: disable all espenc - we dont need it for MeterLogger hardware
 struct netif enc_netif;
 
 typedef enum {
@@ -451,3 +452,4 @@ struct netif* espenc_init(uint8_t *mac_addr, ip_addr_t *ip, ip_addr_t *mask, ip_
         return new_netif;
 }
 
+#endif
