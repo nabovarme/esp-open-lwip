@@ -1317,6 +1317,10 @@ ethernet_input(struct pbuf *p, struct netif *netif)
   u16_t type;
   s16_t ip_hdr_offset = SIZEOF_ETH_HDR;
 
+  if (netif == NULL) {
+    return ERR_RTE;
+  }
+
   if (p->len <= SIZEOF_ETH_HDR) {
     /* a packet with only an ethernet header (or less) is not valid for us modify by ives at 2014.4.24*/
     ETHARP_STATS_INC(etharp.proterr);
