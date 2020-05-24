@@ -385,6 +385,7 @@ espconn_udp_server(struct espconn *pespconn)
     }
 }
 
+#if LWIP_IGMP /* don't build if not configured for use in lwipopts.h */
 /******************************************************************************
  * FunctionName : espconn_igmp_leave
  * Description  : leave a multicast group
@@ -421,3 +422,4 @@ espconn_igmp_join(ip_addr_t *host_ip, ip_addr_t *multicast_ip)
     /* join to any IP address at the port  */
     return ESPCONN_OK;
 }
+#endif /* LWIP_IGMP */

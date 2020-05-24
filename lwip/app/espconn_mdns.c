@@ -9,6 +9,7 @@
  *     2014/3/31, v1.0 create this file.
 *******************************************************************************/
 
+#if LWIP_MDNS /* don't build if not configured for use in lwipopts.h */
 #include "ets_sys.h"
 #include "os_type.h"
 
@@ -132,3 +133,4 @@ espconn_mdns_init(struct mdns_info *info)
 {
 	mdns_init(info);
 }
+#endif /* LWIP_MDNS */

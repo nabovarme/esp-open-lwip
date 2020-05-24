@@ -570,6 +570,7 @@ extern sint8 espconn_gethostbyname(struct espconn *pespconn, const char *name, i
 *******************************************************************************/
 extern sint8 espconn_igmp_join(ip_addr_t *host_ip, ip_addr_t *multicast_ip);
 
+#if LWIP_IGMP /* don't build if not configured for use in lwipopts.h */
 /******************************************************************************
  * FunctionName : espconn_igmp_leave
  * Description  : leave a multicast group
@@ -578,7 +579,9 @@ extern sint8 espconn_igmp_join(ip_addr_t *host_ip, ip_addr_t *multicast_ip);
  * Returns      : none
 *******************************************************************************/
 extern sint8 espconn_igmp_leave(ip_addr_t *host_ip, ip_addr_t *multicast_ip);
+#endif /* LWIP_IGMP */
 
+#if LWIP_MDNS /* don't build if not configured for use in lwipopts.h */
 /******************************************************************************
  * FunctionName : espconn_mdns_init
  * Description  : register a device with mdns
@@ -651,6 +654,8 @@ extern void espconn_mdns_disable(void);
  * Returns      : none
 *******************************************************************************/
 extern void espconn_mdns_enable(void);
+#endif /* LWIP_MDNS */
+
 /******************************************************************************
  * FunctionName : espconn_dns_setserver
  * Description  : Initialize one of the DNS servers.
