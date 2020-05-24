@@ -794,7 +794,7 @@
  * LWIP_IGMP==1: Turn on IGMP module.
  */
 #ifndef LWIP_IGMP
-#define LWIP_IGMP                       1
+#define LWIP_IGMP                       0
 #endif
 /*
    ----------------------------------
@@ -805,7 +805,7 @@
  * LWIP_MDNS==1: Turn on MDNS module.
  */
 #ifndef LWIP_MDNS
-#define LWIP_MDNS                      1
+#define LWIP_MDNS                      0
 #endif
 /*
 /*
