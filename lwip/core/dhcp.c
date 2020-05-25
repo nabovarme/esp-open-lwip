@@ -654,13 +654,11 @@ void ICACHE_FLASH_ATTR dhcp_cleanup(struct netif *netif)
 {
   LWIP_ASSERT("netif != NULL", netif != NULL);
 
-  if (netif == NULL) {
-    return ERR_ARG;
-  }
-
-  if (netif->dhcp != NULL) {
-    mem_free(netif->dhcp);
-    netif->dhcp = NULL;
+  if (netif != NULL) {
+    if (netif->dhcp != NULL) {
+      mem_free(netif->dhcp);
+      netif->dhcp = NULL;
+    }
   }
 }
 
@@ -1373,30 +1371,28 @@ dhcp_stop(struct netif *netif)
 {
   struct dhcp *dhcp;
   
-  if (netif == NULL) {
-    return ERR_ARG;
-  }
-  
-  LWIP_ERROR("dhcp_stop: netif != NULL", (netif != NULL), return;);
-  dhcp = netif->dhcp;
-  /* Remove the flag that says this netif is handled by DHCP. */
-  netif->flags &= ~NETIF_FLAG_DHCP;
-  LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("dhcp_stop()\n"));
-  /* netif is DHCP configured? */
-  if (dhcp != NULL) {
+  if (netif != NULL) {
+    LWIP_ERROR("dhcp_stop: netif != NULL", (netif != NULL), return;);
+    dhcp = netif->dhcp;
+    /* Remove the flag that says this netif is handled by DHCP. */
+    netif->flags &= ~NETIF_FLAG_DHCP;
+    LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("dhcp_stop()\n"));
+    /* netif is DHCP configured? */
+    if (dhcp != NULL) {
 #if LWIP_DHCP_AUTOIP_COOP
-    if(dhcp->autoip_coop_state == DHCP_AUTOIP_COOP_STATE_ON) {
-      autoip_stop(netif);
-      dhcp->autoip_coop_state = DHCP_AUTOIP_COOP_STATE_OFF;
-    }
+      if(dhcp->autoip_coop_state == DHCP_AUTOIP_COOP_STATE_ON) {
+        autoip_stop(netif);
+        dhcp->autoip_coop_state = DHCP_AUTOIP_COOP_STATE_OFF;
+      }
 #endif /* LWIP_DHCP_AUTOIP_COOP */
-
-    if (dhcp->pcb != NULL) {
-      udp_remove(dhcp->pcb);
-      dhcp->pcb = NULL;
+  
+      if (dhcp->pcb != NULL) {
+        udp_remove(dhcp->pcb);
+        dhcp->pcb = NULL;
+      }
+      LWIP_ASSERT("reply wasn't freed", dhcp->msg_in == NULL);
+      dhcp_set_state(dhcp, DHCP_OFF);
     }
-    LWIP_ASSERT("reply wasn't freed", dhcp->msg_in == NULL);
-    dhcp_set_state(dhcp, DHCP_OFF);
   }
 }
 
