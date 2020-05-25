@@ -150,6 +150,9 @@ struct netif *
 netif_add(struct netif *netif, ip_addr_t *ipaddr, ip_addr_t *netmask,
   ip_addr_t *gw, void *state, netif_init_fn init, netif_input_fn input)
 {
+  if (netif == NULL) {
+    return NULL;
+  }
   LWIP_ASSERT("No init function given", init != NULL);
 
   /* reset new interface configuration state */
@@ -247,6 +250,10 @@ void
 netif_set_addr(struct netif *netif, ip_addr_t *ipaddr, ip_addr_t *netmask,
     ip_addr_t *gw)
 {
+  if (netif == NULL) {
+    return;
+  }
+  
   netif_set_ipaddr(netif, ipaddr);
   netif_set_netmask(netif, netmask);
   netif_set_gw(netif, gw);
@@ -473,6 +480,10 @@ netif_set_default(struct netif *netif)
  */ 
 void netif_set_up(struct netif *netif)
 {
+  if (netif == NULL) {
+    return;
+  }
+  
   if (!(netif->flags & NETIF_FLAG_UP)) {
     netif->flags |= NETIF_FLAG_UP;
     
@@ -510,6 +521,10 @@ void netif_set_up(struct netif *netif)
  */ 
 void netif_set_down(struct netif *netif)
 {
+  if (netif == NULL) {
+    return;
+  }
+
   if (netif->flags & NETIF_FLAG_UP) {
     netif->flags &= ~NETIF_FLAG_UP;
 #if LWIP_SNMP

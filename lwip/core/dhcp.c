@@ -654,6 +654,10 @@ void ICACHE_FLASH_ATTR dhcp_cleanup(struct netif *netif)
 {
   LWIP_ASSERT("netif != NULL", netif != NULL);
 
+  if (netif == NULL) {
+    return ERR_ARG;
+  }
+
   if (netif->dhcp != NULL) {
     mem_free(netif->dhcp);
     netif->dhcp = NULL;
@@ -677,7 +681,13 @@ dhcp_start(struct netif *netif)
 {
   struct dhcp *dhcp;
   err_t result = ERR_OK;
+  
   LWIP_ERROR("netif != NULL", (netif != NULL), return ERR_ARG;);
+
+  if (netif == NULL) {
+    return ERR_ARG;
+  }
+  
   dhcp = netif->dhcp;
   LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("dhcp_start(netif=%p) %c%c%"U16_F"\n", (void*)netif, netif->name[0], netif->name[1], (u16_t)netif->num));
   /* Remove the flag that says this netif is handled by DHCP,
@@ -1304,6 +1314,11 @@ dhcp_release(struct netif *netif)
   struct dhcp *dhcp = netif->dhcp;
   err_t result;
   u16_t msecs;
+
+  if (netif == NULL) {
+    return ERR_ARG;
+  }
+
   LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("dhcp_release()\n"));
   if (dhcp == NULL) {
     return ERR_ARG;
@@ -1357,6 +1372,11 @@ void ICACHE_FLASH_ATTR
 dhcp_stop(struct netif *netif)
 {
   struct dhcp *dhcp;
+  
+  if (netif == NULL) {
+    return ERR_ARG;
+  }
+  
   LWIP_ERROR("dhcp_stop: netif != NULL", (netif != NULL), return;);
   dhcp = netif->dhcp;
   /* Remove the flag that says this netif is handled by DHCP. */
