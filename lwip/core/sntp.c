@@ -218,8 +218,10 @@
 #define SNTP_OFFSET_RECEIVE_TIME    32
 #define SNTP_OFFSET_TRANSMIT_TIME   40
 
-/* number of seconds between 1900 and 1970 */
+/* number of seconds between 1900 and 1970 (MSB=1)*/
 #define DIFF_SEC_1900_1970         (2208988800UL)
+/* number of seconds between 1970 and Feb 7, 2036 (6:28:16 UTC) (MSB=0) */
+#define DIFF_SEC_1970_2036         (2085978496UL)
 
 /**
  * SNTP packet format (without optional fields)
