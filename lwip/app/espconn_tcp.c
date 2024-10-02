@@ -751,6 +751,10 @@ espconn_client_sent(void *arg, struct tcp_pcb *pcb, u16_t len)
 {
 	espconn_msg *psent_cb = arg;
 
+	if (!psent_cb) {
+		return ERR_ARG;
+	}
+
 	psent_cb->pcommon.pcb = pcb;
 	psent_cb->pcommon.pbuf->tot_len += len;
 	psent_cb->pcommon.packet_info.sent_length = len;
@@ -1064,6 +1068,10 @@ static err_t ICACHE_FLASH_ATTR
 espconn_server_sent(void *arg, struct tcp_pcb *pcb, u16_t len)
 {
 	espconn_msg *psent_cb = arg;
+
+	if (!psent_cb) {
+		return ERR_ARG;
+	}
 
 	psent_cb->pcommon.pcb = pcb;
 	psent_cb->pcommon.recv_check = 0;
