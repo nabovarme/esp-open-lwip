@@ -679,6 +679,10 @@ espconn_client_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err)
 err_t ICACHE_FLASH_ATTR espconn_tcp_write(void *arg)
 {
 	espconn_msg *pwrite = arg;
+	if (!pwrite) {
+		return ERR_ARG;
+	}
+	
 	err_t err = ERR_OK;
 	struct tcp_pcb *pcb = pwrite->pcommon.pcb;
 	/*for one active connection,limit the sender buffer space*/
