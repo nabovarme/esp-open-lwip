@@ -730,9 +730,12 @@ static void ICACHE_FLASH_ATTR espconn_tcp_finish(void *arg)
 			pfinish->pcommon.packet_info.sent_length = premove->len;
 			os_free(premove);
 			premove = NULL;
-			pfinish->pespconn->state = ESPCONN_CONNECT;
-			if (pfinish->pespconn->sent_callback != NULL) {
-				pfinish->pespconn->sent_callback(pfinish->pespconn);
+			// check for null before dereferencing pfinish
+			if (pfinish->pespconn) {
+				pfinish->pespconn->state = ESPCONN_CONNECT;
+				if (pfinish->pespconn->sent_callback) {
+					pfinish->pespconn->sent_callback(pfinish->pespconn);
+				}
 			}
 			pfinish->pcommon.packet_info.sent_length = len;
 		} else
