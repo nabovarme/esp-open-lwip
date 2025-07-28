@@ -724,7 +724,7 @@ static void ICACHE_FLASH_ATTR espconn_tcp_finish(void *arg)
 		pfinish->pcommon.pbuf->tot_len += len;
 		/*application packet has been sent and acknowledged by the remote host,
 		 * to prevent memory leaks, ensure that each allocated is deleted*/
-		if (premove->tot_len >= premove->len){
+		if (premove && premove->tot_len >= premove->len){
 			espconn_pbuf_delete(&pfinish->pcommon.pbuf,premove);
 			len = premove->tot_len - premove->len;
 			pfinish->pcommon.packet_info.sent_length = premove->len;
