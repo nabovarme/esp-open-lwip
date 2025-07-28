@@ -758,7 +758,7 @@ espconn_client_sent(void *arg, struct tcp_pcb *pcb, u16_t len)
 {
 	espconn_msg *psent_cb = arg;
 
-	if (!psent_cb) {
+	if (!psent_cb || !psent_cb->pcommon.pbuf) {
 		return ERR_ARG;
 	}
 
