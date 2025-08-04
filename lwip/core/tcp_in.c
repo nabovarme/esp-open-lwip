@@ -1507,17 +1507,27 @@ tcp_receive(struct tcp_pcb *pcb)
                                 ("tcp_receive: other end overran receive window"
                                  "seqno %"U32_F" len %"U16_F" right edge %"U32_F"\n",
                                  seqno, tcplen, pcb->rcv_nxt + pcb->rcv_wnd));
-                    if (TCPH_FLAGS(next->next->tcphdr) & TCP_FIN) {
-                      /* Must remove the FIN from the header as we're trimming 
-                       * that byte of sequence-space from the packet */
-                      TCPH_FLAGS_SET(next->next->tcphdr, TCPH_FLAGS(next->next->tcphdr) &~ TCP_FIN);
+                
+                    if (next->next->tcphdr != NULL) {
+                      if (TCPH_FLAGS(next->next->tcphdr) & TCP_FIN) {
+                        /* Must remove the FIN from the header as we're trimming 
+                         * that byte of sequence-space from the packet */
+                        TCPH_FLAGS_SET(next->next->tcphdr,
+                                       TCPH_FLAGS(next->next->tcphdr) & ~TCP_FIN);
+                      }
                     }
-                    /* Adjust length of segment to fit in the window. */
-                    next->next->len = pcb->rcv_nxt + pcb->rcv_wnd - seqno;
-                    pbuf_realloc(next->next->p, next->next->len);
-                    tcplen = TCP_TCPLEN(next->next);
-                    LWIP_ASSERT("tcp_receive: segment not trimmed correctly to rcv_wnd\n",
-                                (seqno + tcplen) == (pcb->rcv_nxt + pcb->rcv_wnd));
+                
+                    if (next->next->p != NULL) {
+                      /* Adjust length of segment to fit in the window. */
+                      next->next->len = pcb->rcv_nxt + pcb->rcv_wnd - seqno;
+                      pbuf_realloc(next->next->p, next->next->len);
+                
+                      if (next->next->tcphdr != NULL) {
+                        tcplen = TCP_TCPLEN(next->next);
+                        LWIP_ASSERT("tcp_receive: segment not trimmed correctly to rcv_wnd\n",
+                                    (seqno + tcplen) == (pcb->rcv_nxt + pcb->rcv_wnd));
+                      }
+                    }
                   }
                 }
                 break;
