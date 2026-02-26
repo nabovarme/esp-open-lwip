@@ -324,6 +324,25 @@ ip_napt_enable(u32_t addr, int enable)
   }
 }
 
+/**
+ * @brief Get the number of currently active NAPT entries.
+ * 
+ * @return Number of active entries in the NAT table.
+ */
+u16_t ICACHE_FLASH_ATTR
+ip_napt_count(void)
+{
+    u16_t count = 0;
+    u16_t i = napt_list;
+
+    while (i != NO_IDX) {
+        count++;
+        i = NT(i)->next;
+    }
+
+    return count;
+}
+
 void ICACHE_FLASH_ATTR
 ip_napt_enable_no(u8_t number, int enable)
 {

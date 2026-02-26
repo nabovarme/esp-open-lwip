@@ -206,6 +206,8 @@ void ip_debug_print(struct pbuf *p)ICACHE_FLASH_ATTR;
 #define ip_debug_print(p)
 #endif /* IP_DEBUG */
 
+u16_t ip_napt_count(void)ICACHE_FLASH_ATTR;
+
 #if NAPT_DEBUG
 void napt_debug_print()ICACHE_FLASH_ATTR;
 #else
