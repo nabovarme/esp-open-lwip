@@ -718,6 +718,9 @@ static void ICACHE_FLASH_ATTR espconn_tcp_finish(void *arg)
 	espconn_msg *pfinish = arg;
 	espconn_buf *premove = NULL;
 	uint16 len = 0;
+
+	if (pfinish == NULL) return; // FIX: Guard NULL connection structure
+
 	espconn_tcp_write(pfinish);
 	while (pfinish->pcommon.pbuf != NULL){
 		premove = pfinish->pcommon.pbuf;
