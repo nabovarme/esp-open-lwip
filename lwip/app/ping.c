@@ -256,7 +256,7 @@ ping_coarse_tmr(void *arg)
 		}
 		sys_untimeout(ping_coarse_tmr, pingmsg);
 		if (pingmsg->ping_pcb != NULL) {
-			raw_recv(pingmsg->ping_pcb, NULL, NULL); // FIX: Unbind callback before freeing
+			raw_recv(pingmsg->ping_pcb, NULL, NULL); // Unbind callback before freeing
 			raw_remove(pingmsg->ping_pcb);
 		}
 		os_free(pingmsg);
