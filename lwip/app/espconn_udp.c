@@ -291,6 +291,13 @@ espconn_udp_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 
     LWIP_DEBUGF(ESPCONN_UDP_DEBUG, ("espconn_udp_server_recv %d %p\n", __LINE__, upcb));
 
+    if (precv == NULL) {
+        if (p != NULL) {
+            pbuf_free(p);
+        }
+        return;
+    }
+
     precv->pcommon.remote_ip[0] = ip4_addr1_16(addr);
     precv->pcommon.remote_ip[1] = ip4_addr2_16(addr);
     precv->pcommon.remote_ip[2] = ip4_addr3_16(addr);

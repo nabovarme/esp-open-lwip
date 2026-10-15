@@ -255,7 +255,10 @@ ping_coarse_tmr(void *arg)
 			pingresp.ping_err = 0;
 		}
 		sys_untimeout(ping_coarse_tmr, pingmsg);
-		raw_remove(pingmsg->ping_pcb);
+		if (pingmsg->ping_pcb != NULL) {
+			raw_recv(pingmsg->ping_pcb, NULL, NULL); // Unbind callback before freeing
+			raw_remove(pingmsg->ping_pcb);
+		}
 		os_free(pingmsg);
 		if (ping_opt->sent_function != NULL)
 			ping_opt->sent_function(ping_opt,(uint8*)&pingresp);

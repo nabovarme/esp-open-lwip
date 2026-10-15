@@ -622,6 +622,7 @@ static sint16_t ICACHE_FLASH_ATTR parse_msg(struct dhcps_msg *m, u16_t len) {
                 //							client_address_plus.addr = htonl(addr_tmp.addr);
                 for(pback_node = plist; pback_node != NULL; pback_node = pback_node->pnext) {
                         pdhcps_pool = pback_node->pnode;
+                        if (pdhcps_pool == NULL) continue; // Guard null node
                         if(os_memcmp(pdhcps_pool->mac, m->chaddr, sizeof(pdhcps_pool->mac)) == 0) {
                                 //									os_printf("the same device request ip\n");
                                 if(os_memcmp(&pdhcps_pool->ip.addr, m->ciaddr, sizeof(pdhcps_pool->ip.addr)) == 0) {
