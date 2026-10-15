@@ -291,8 +291,10 @@ espconn_udp_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p,
 
     LWIP_DEBUGF(ESPCONN_UDP_DEBUG, ("espconn_udp_server_recv %d %p\n", __LINE__, upcb));
 
-    if (precv == NULL || precv->pespconn == NULL || addr == NULL) {
-        if (p != NULL) pbuf_free(p);
+    if (precv == NULL) {
+        if (p != NULL) {
+            pbuf_free(p);
+        }
         return;
     }
 
