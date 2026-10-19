@@ -908,7 +908,7 @@
  * (2 * TCP_MSS) for things to work well
  */
 #ifndef TCP_WND
-#define TCP_WND                         (4 * TCP_MSS)
+#define TCP_WND                         (2 * TCP_MSS)
 #endif 
 
 /**

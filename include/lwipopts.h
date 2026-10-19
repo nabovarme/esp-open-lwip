@@ -258,7 +258,7 @@
  * (requires the LWIP_TCP option)
  */
 #ifndef MEMP_NUM_TCP_SEG
-#define MEMP_NUM_TCP_SEG                16
+#define MEMP_NUM_TCP_SEG                32
 #endif
 
 /**
@@ -403,7 +403,7 @@
  * PBUF_POOL_SIZE: the number of buffers in the pbuf pool.
  */
 #ifndef PBUF_POOL_SIZE
-#define PBUF_POOL_SIZE                  10
+#define PBUF_POOL_SIZE                  24
 #endif
 
 /*
@@ -422,7 +422,7 @@
  * ARP_TABLE_SIZE: Number of active MAC-IP address pairs cached.
  */
 #ifndef ARP_TABLE_SIZE
-#define ARP_TABLE_SIZE                  10
+#define ARP_TABLE_SIZE                  8
 #endif
 
 /**
